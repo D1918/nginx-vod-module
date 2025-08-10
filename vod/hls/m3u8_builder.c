@@ -609,7 +609,8 @@ m3u8_builder_build_index_playlist(
 		p = vod_copy(p, encryption_key_tag_uri, sizeof(encryption_key_tag_uri) - 1);
 		if (encryption_params->key_uri.len != 0)
 		{
-			p = vod_copy(p, encryption_params->key_uri.data, encryption_params->key_uri.len);
+                  // dendy
+                  // p = vod_copy(p, encryption_params->key_uri.data, encryption_params->key_uri.len);
 		}
 #if (NGX_HAVE_OPENSSL_EVP)
 		else if (encryption_params->type == HLS_ENC_SAMPLE_AES_CENC)

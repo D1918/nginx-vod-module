@@ -42,6 +42,13 @@
 	NGX_HTTP_LOC_CONF_OFFSET,
 	BASE_OFFSET + offsetof(ngx_http_vod_hls_loc_conf_t, output_iv),
 	NULL },
+
+	{ ngx_string("vod_hls_encryption_output_key_uri"),
+        NGX_HTTP_LOC_CONF | NGX_CONF_TAKE1,
+	ngx_conf_set_flag_slot,
+	NGX_HTTP_LOC_CONF_OFFSET,
+	BASE_OFFSET + offsetof(ngx_http_vod_hls_loc_conf_t, output_key_uri),
+	NULL },
 #endif // NGX_HAVE_OPENSSL_EVP
 
 	{ ngx_string("vod_hls_container_format"),

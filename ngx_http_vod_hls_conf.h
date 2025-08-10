@@ -20,6 +20,7 @@ typedef struct
 	vod_uint_t encryption_method;
 	ngx_http_complex_value_t* encryption_key_uri;
 	bool_t output_iv;
+        bool_t output_key_uri;
 
 	// derived fields
 	m3u8_config_t m3u8_config;
