@@ -609,15 +609,15 @@ m3u8_builder_build_index_playlist(
 		p = vod_copy(p, encryption_key_tag_uri, sizeof(encryption_key_tag_uri) - 1);
 		if (encryption_params->key_uri.len != 0)
 		{
-                  // dendy
-                  // p = vod_copy(p, encryption_params->key_uri.data, encryption_params->key_uri.len);
+                  // dendy1
+                  p = vod_copy(p, encryption_params->key_uri.data, encryption_params->key_uri.len);
 		}
 #if (NGX_HAVE_OPENSSL_EVP)
 		else if (encryption_params->type == HLS_ENC_SAMPLE_AES_CENC)
 		{
-			base64.data = vod_copy(p, sample_aes_cenc_uri_prefix, sizeof(sample_aes_cenc_uri_prefix) - 1);
-			vod_encode_base64(&base64, &psshs);
-			p = base64.data + base64.len;
+		  //base64.data = vod_copy(p, sample_aes_cenc_uri_prefix, sizeof(sample_aes_cenc_uri_prefix) - 1);
+		  //vod_encode_base64(&base64, &psshs);
+		  //p = base64.data + base64.len;
 		}
 #endif // NGX_HAVE_OPENSSL_EVP
 		else
