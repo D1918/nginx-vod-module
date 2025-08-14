@@ -374,7 +374,7 @@ vod_status_t m3u8_builder_build_index_playlist(
   u_char *p;
 
 #if (NGX_HAVE_OPENSSL_EVP)
-  //vod_str_t base64;
+  vod_str_t base64;
   vod_str_t psshs;
 #endif // NGX_HAVE_OPENSSL_EVP
 
@@ -532,30 +532,33 @@ vod_status_t m3u8_builder_build_index_playlist(
     }
 
     // uri
-    /*p = vod_copy(p, encryption_key_tag_uri, sizeof(encryption_key_tag_uri) - 1);
-    if (encryption_params->key_uri.len != 0) {
-      p = vod_copy(p, encryption_params->key_uri.data,
-                   encryption_params->key_uri.len);
-                   }*/
+    if (encryption_params->return_key_uri) {
+      p = vod_copy(p, encryption_key_tag_uri,
+                   sizeof(encryption_key_tag_uri) - 1);
+      if (encryption_params->key_uri.len != 0) {
+        p = vod_copy(p, encryption_params->key_uri.data,
+                     encryption_params->key_uri.len);
+      }
 #if (NGX_HAVE_OPENSSL_EVP)
-    //else if (encryption_params->type == HLS_ENC_SAMPLE_AES_CENC) {
-    //  base64.data = vod_copy(p, sample_aes_cenc_uri_prefix,
-    //                         sizeof(sample_aes_cenc_uri_prefix) - 1);
-    //  vod_encode_base64(&base64, &psshs);
-    //  p = base64.data + base64.len;
-    //}
+      else if (encryption_params->type == HLS_ENC_SAMPLE_AES_CENC) {
+        base64.data = vod_copy(p, sample_aes_cenc_uri_prefix,
+                               sizeof(sample_aes_cenc_uri_prefix) - 1);
+        vod_encode_base64(&base64, &psshs);
+        p = base64.data + base64.len;
+      }
 #endif // NGX_HAVE_OPENSSL_EVP
-    //else {
-    //  p = vod_copy(p, base_url->data, base_url->len);
-    //  p = vod_copy(p, conf->encryption_key_file_name.data,
-    //               conf->encryption_key_file_name.len);
-    //  if (media_set->has_multi_sequences) {
-    //    p = vod_sprintf(p, "-f%uD", media_set->sequences->index + 1);
-    //  }
-    //  p = vod_copy(p, encryption_key_extension,
-    //  sizeof(encryption_key_extension) - 1);
-    //}
-    //*p++ = '"';
+      else {
+        p = vod_copy(p, base_url->data, base_url->len);
+        p = vod_copy(p, conf->encryption_key_file_name.data,
+                     conf->encryption_key_file_name.len);
+        if (media_set->has_multi_sequences) {
+          p = vod_sprintf(p, "-f%uD", media_set->sequences->index + 1);
+        }
+        p = vod_copy(p, encryption_key_extension,
+                     sizeof(encryption_key_extension) - 1);
+      }
+      *p++ = '"';
+    }
 
     // iv
     if (encryption_params->return_iv) {
